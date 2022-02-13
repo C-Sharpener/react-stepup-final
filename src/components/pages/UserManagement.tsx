@@ -32,7 +32,7 @@ export const UserManagement: VFC = memo(() => {
   const { onSelectUser, selectedUser } = useSelectUser();
   // console.log(selectedUser);
   const { loginUser } = useLoginUser();
-  // console.log(loginUser);
+  console.log(loginUser);
 
   useEffect(() => getUsers(), []);
 
