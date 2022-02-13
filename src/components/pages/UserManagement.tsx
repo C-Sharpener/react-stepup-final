@@ -1,27 +1,44 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 // import { Box, Image, Stack, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import { Wrap, WrapItem } from "@chakra-ui/react";
-import { memo, VFC } from "react";
+import { Center, Spinner, Wrap, WrapItem } from "@chakra-ui/react";
+import { memo, useEffect, VFC } from "react";
+
 import { UserCard } from "../organisms/user/UserCard";
+import { useAllUsers } from "../../hooks/useAllUsers";
 
 export const UserManagement: VFC = memo(() => {
+  const { getUsers, users, loading } = useAllUsers();
+
+  useEffect(() => getUsers(), []);
+
   // return <p>ユーザー管理ページです</p>;
   return (
-    // <Wrap spacing="30px">
-    // <Wrap>
-    <Wrap p={{ base: 4, md: 10 }}>
-      {/* {[...Array(10)].map(() => (
-        <WrapItem>
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              backgroundColor: "teal"
-            }}
-          />
-        </WrapItem>
-      ))} */}
-      <WrapItem>
-        {/* <Box
+    <>
+      {loading ? (
+        <Center h="100vh">
+          <Spinner />
+        </Center>
+      ) : (
+        // <Wrap spacing="30px">
+        // <Wrap>
+        <Wrap p={{ base: 4, md: 10 }}>
+          {users.map((user) => (
+            //     {/* {[...Array(10)].map(() => (
+            //   <WrapItem>
+            //     <div
+            //       style={{
+            //         width: "100px",
+            //         height: "100px",
+            //         backgroundColor: "teal"
+            //       }}
+            //     />
+            //   </WrapItem>
+            // ))} */}
+            // <WrapItem>
+            // <WrapItem key={user.id}>
+            <WrapItem key={user.id} mx="auto">
+              {/* <Box
           w="260px"
           h="260px"
           bg="white"
@@ -46,12 +63,17 @@ export const UserManagement: VFC = memo(() => {
             </Text>
           </Stack>
         </Box> */}
-        <UserCard
-          imageUrl="https://source.unsplash.com/random"
-          userName="じゃけぇ"
-          fullName="Takumi Okada"
-        />
-      </WrapItem>
-    </Wrap>
+              <UserCard
+                imageUrl="https://source.unsplash.com/random"
+                // userName="じゃけぇ"
+                userName={user.username}
+                // fullName="Takumi Okada"
+                fullName={user.name}
+              />
+            </WrapItem>
+          ))}
+        </Wrap>
+      )}
+    </>
   );
 });
